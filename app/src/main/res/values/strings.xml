@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">Tuner</string>
     <string name="app_version">v1.0.0</string>
+    <string name="app_settings">Ustawienia</string>
     <string name="app_refresh">Odśwież</string>
     <string name="app_tablature">Tabulatury</string>
     <string name="app_chord">Akordy</string>
     <string name="app_tuner">Stroik</string>
+    <string name="app_dir">SDCard/tuner</string>
 
     <string name="btn_delete">Usuń</string>
     <string name="btn_open">Otwórz</string>

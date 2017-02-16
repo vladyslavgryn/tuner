@@ -18,4 +18,13 @@
             android:icon="@drawable/ic_mic_none_black_24dp"
             android:title="@string/app_tuner" />
     </group>
+
+    <item android:title="@string/app_settings">
+        <menu>
+            <item
+                android:enabled="false"
+                android:icon="@drawable/ic_folder_open_black_24dp"
+                android:title="@string/app_dir" />
+        </menu>
+    </item>
 </menu>

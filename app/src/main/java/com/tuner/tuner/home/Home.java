@@ -91,7 +91,9 @@ public class Home extends AppCompatActivity implements HomeView, NavigationView.
             e.printStackTrace();
         }
 
-        fragmentManager.beginTransaction().replace(R.id.frame_fragment, fragment).commit();
+        fragmentManager.beginTransaction()
+                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                .replace(R.id.frame_fragment, fragment).commit();
     }
 
     @Override
