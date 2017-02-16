@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/menu_tablature"
+            android:checked="true"
+            android:icon="@drawable/ic_subtitles_black_24dp"
+            android:title="@string/app_tablature" />
+
+        <item
+            android:id="@+id/menu_chord"
+            android:icon="@drawable/ic_audiotrack_black_24dp"
+            android:title="@string/app_chord" />
+
+        <item
+            android:id="@+id/menu_tuner"
+            android:icon="@drawable/ic_mic_none_black_24dp"
+            android:title="@string/app_tuner" />
+    </group>
+</menu>

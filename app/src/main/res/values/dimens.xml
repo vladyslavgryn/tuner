@@ -1,0 +1,11 @@
+<resources>
+
+    <dimen name="nav_icon_size">50dp</dimen>
+    <dimen name="nav_text_size">15sp</dimen>
+
+    <dimen name="list_text_size">18sp</dimen>
+    <dimen name="list_icon_size">60dp</dimen>
+
+    <dimen name="recycler_icon_size">100dp</dimen>
+
+</resources>

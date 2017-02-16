@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Tuner</string>
+    <string name="app_version">v1.0.0</string>
+    <string name="app_refresh">Odśwież</string>
+    <string name="app_tablature">Tabulatury</string>
+    <string name="app_chord">Akordy</string>
+    <string name="app_tuner">Stroik</string>
+
+    <string name="btn_delete">Usuń</string>
+    <string name="btn_open">Otwórz</string>
+
+    <string name="navigation_drawer_open">Otwórz menu</string>
+    <string name="navigation_drawer_close">Zamknij menu</string>
+
+    <string name="msg_err_external">Pamięć zewnętrzna nie jest dostępna</string>
+    <string name="msg_err_dir">Katalog aplikacji nie został odnaleziony</string>
+    <string name="msg_err_file">Nie ondnaleziono pliku</string>
+    <string name="msg_err_delete">Nie udało się usunąć pliku</string>
+    <string name="msg_err_app">Nie odnaleziono aplikacji umożliwiającej wyświetlenie wybranego typu pliku</string>
+
+    <string name="msg_suc_delete">Plik został usunięty</string>
+
+    <string-array name="chords">
+        <item>A</item>
+        <item>E</item>
+        <item>F</item>
+        <item>B</item>
+        <item>D</item>
+        <item>D#</item>
+        <item>G</item>
+        <item>C</item>
+        <item>C#</item>
+        <item>H</item>
+        <item>F#</item>
+    </string-array>
+
+</resources>
