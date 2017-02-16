@@ -23,8 +23,8 @@ import android.widget.TextView;
 import com.tuner.tuner.BuildConfig;
 import com.tuner.tuner.R;
 import com.tuner.tuner.adapter.RecyclerViewTablatureAdapter;
-import com.tuner.tuner.utils.FileUtil;
 import com.tuner.tuner.models.FileModel;
+import com.tuner.tuner.utils.FileUtil;
 
 import java.io.File;
 import java.util.List;
@@ -75,7 +75,7 @@ public class Tablature extends Fragment implements TablatureView {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.settings, menu);
 
-        super.onCreateOptionsMenu(menu,inflater);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

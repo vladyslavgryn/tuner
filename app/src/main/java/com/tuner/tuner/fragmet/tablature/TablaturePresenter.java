@@ -4,8 +4,8 @@ import android.graphics.Color;
 import android.view.View;
 
 import com.tuner.tuner.R;
-import com.tuner.tuner.utils.FileUtil;
 import com.tuner.tuner.models.FileModel;
+import com.tuner.tuner.utils.FileUtil;
 
 import java.io.File;
 import java.util.ArrayList;

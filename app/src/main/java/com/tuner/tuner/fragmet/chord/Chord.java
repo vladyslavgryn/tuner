@@ -62,13 +62,13 @@ public class Chord extends Fragment implements ChordView {
     }
 
     @Override
-    public void setChords(List<String> chords) {
-        ListViewChordAdapter listViewChordAdapter = new ListViewChordAdapter(getContext(), R.layout.list_view_chord, chords);
-        listView.setAdapter(listViewChordAdapter);
+    public String[] getChords() {
+        return getResources().getStringArray(R.array.chords);
     }
 
     @Override
-    public String[] getChords() {
-        return getResources().getStringArray(R.array.chords);
+    public void setChords(List<String> chords) {
+        ListViewChordAdapter listViewChordAdapter = new ListViewChordAdapter(getContext(), R.layout.list_view_chord, chords);
+        listView.setAdapter(listViewChordAdapter);
     }
 }

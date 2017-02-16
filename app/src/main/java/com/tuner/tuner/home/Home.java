@@ -16,9 +16,6 @@ import android.view.MenuItem;
 import com.tuner.tuner.R;
 import com.tuner.tuner.fragmet.tablature.Tablature;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

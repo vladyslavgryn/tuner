@@ -4,7 +4,7 @@ import java.util.List;
 
 interface ChordView {
 
-    void setChords(List<String> chords);
-
     String[] getChords();
+
+    void setChords(List<String> chords);
 }
