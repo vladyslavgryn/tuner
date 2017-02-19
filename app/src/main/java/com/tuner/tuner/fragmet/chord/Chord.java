@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.tuner.tuner.R;
-import com.tuner.tuner.adapter.ListViewChordAdapter;
+import com.tuner.tuner.fragmet.chord.adapter.ListViewChordAdapter;
 
 import java.util.List;
 

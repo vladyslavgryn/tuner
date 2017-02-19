@@ -1,8 +1,6 @@
 package com.tuner.tuner.fragmet.tablature;
 
-import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,15 +16,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tuner.tuner.BuildConfig;
 import com.tuner.tuner.R;
-import com.tuner.tuner.adapter.RecyclerViewTablatureAdapter;
+import com.tuner.tuner.fragmet.tablature.adapter.RecyclerViewTablatureAdapter;
 import com.tuner.tuner.models.FileModel;
 import com.tuner.tuner.utils.FileUtil;
 
@@ -50,6 +46,7 @@ public class Tablature extends Fragment implements TablatureView {
 
     private Unbinder unbinder;
     private TablaturePresenter tablaturePresenter;
+    private RecyclerViewTablatureAdapter recyclerViewTablatureAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,7 +82,7 @@ public class Tablature extends Fragment implements TablatureView {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_refresh) {
-            tablaturePresenter.readFilesFromPath();
+            tablaturePresenter.readFilesFromPath(true);
 
             return true;
         }
@@ -97,7 +94,7 @@ public class Tablature extends Fragment implements TablatureView {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        tablaturePresenter.readFilesFromPath();
+        tablaturePresenter.readFilesFromPath(false);
     }
 
     @Override
@@ -116,17 +113,34 @@ public class Tablature extends Fragment implements TablatureView {
 
     @Override
     public void setRecyclerView(List<FileModel> files) {
-        RecyclerViewTablatureAdapter recyclerViewTablatureAdapter = new RecyclerViewTablatureAdapter(files, tablaturePresenter);
+        recyclerViewTablatureAdapter = new RecyclerViewTablatureAdapter(files, tablaturePresenter);
         recyclerView.setAdapter(recyclerViewTablatureAdapter);
     }
 
     @Override
-    public void isVisibilityImage(int visibility) {
+    public void updateFiles(List<FileModel> fileModels) {
+        if (null == recyclerViewTablatureAdapter) {
+            setRecyclerView(fileModels);
+        } else {
+            recyclerViewTablatureAdapter.updateFiles(fileModels);
+            recyclerViewTablatureAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public int removeFile(int position) {
+        recyclerViewTablatureAdapter.removeFile(position);
+
+        return recyclerViewTablatureAdapter.getItemCount();
+    }
+
+    @Override
+    public void setVisibilityImage(int visibility) {
         imageView.setVisibility(visibility);
     }
 
     @Override
-    public void isVisibilityRecycler(int visibility) {
+    public void setVisibilityRecycler(int visibility) {
         recyclerView.setVisibility(visibility);
     }
 

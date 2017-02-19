@@ -27,11 +27,15 @@ public class TablaturePresenter {
         }
     }
 
-    public void deleteFile(File file) {
+    public void deleteFile(File file, int position) {
         try {
             if (file.delete()) {
+                int count = tablatureView.removeFile(position);
+                if (count == 0) {
+                    tablatureView.setVisibilityRecycler(View.GONE);
+                    tablatureView.setVisibilityImage(View.VISIBLE);
+                }
                 tablatureView.showMessage(R.string.msg_suc_delete, Color.WHITE);
-                readFilesFromPath();
             } else {
                 tablatureView.showMessage(R.string.msg_err_delete, Color.RED);
             }
@@ -40,28 +44,33 @@ public class TablaturePresenter {
         }
     }
 
-    void readFilesFromPath() {
+    void readFilesFromPath(boolean updateFiles) {
 
-        tablatureView.isVisibilityRecycler(View.GONE);
-        tablatureView.isVisibilityImage(View.VISIBLE);
+        tablatureView.setVisibilityRecycler(View.GONE);
+        tablatureView.setVisibilityImage(View.VISIBLE);
 
         if (FileUtil.isExternalStorageAvailable()) {
             File path = FileUtil.getApplicationPath();
-            validatePath(path);
+            validatePath(path, updateFiles);
         } else {
             tablatureView.showMessage(R.string.msg_err_external, Color.RED);
         }
     }
 
-    private void validatePath(File path) {
+    private void validatePath(File path, boolean updateFiles) {
 
         if (path.exists()) {
             List<FileModel> fileModels = getFiles(path);
 
             if (!fileModels.isEmpty()) {
-                tablatureView.isVisibilityImage(View.GONE);
-                tablatureView.isVisibilityRecycler(View.VISIBLE);
-                tablatureView.setRecyclerView(fileModels);
+                tablatureView.setVisibilityImage(View.GONE);
+                tablatureView.setVisibilityRecycler(View.VISIBLE);
+
+                if (updateFiles) {
+                    tablatureView.updateFiles(fileModels);
+                } else {
+                    tablatureView.setRecyclerView(fileModels);
+                }
             }
         } else {
             if (!path.mkdir()) {
@@ -82,6 +91,7 @@ public class TablaturePresenter {
                 fileModel.setName(file.getName());
                 fileModel.setPath(file.getAbsolutePath());
                 fileModel.setFile(file.getAbsoluteFile());
+                fileModel.setLength(file.length());
 
                 fileModels.add(fileModel);
             }

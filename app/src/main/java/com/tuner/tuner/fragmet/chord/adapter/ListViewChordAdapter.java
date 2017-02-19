@@ -1,4 +1,4 @@
-package com.tuner.tuner.adapter;
+package com.tuner.tuner.fragmet.chord.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

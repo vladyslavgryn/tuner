@@ -10,6 +10,8 @@ public class FileModel {
 
     private File file;
 
+    private long length;
+
     public String getName() {
         return name;
     }
@@ -32,5 +34,13 @@ public class FileModel {
 
     public void setFile(File file) {
         this.file = file;
+    }
+
+    public long getLength() {
+        return length;
+    }
+
+    public void setLength(long length) {
+        this.length = length;
     }
 }

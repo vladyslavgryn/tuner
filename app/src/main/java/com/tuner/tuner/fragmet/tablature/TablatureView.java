@@ -11,9 +11,13 @@ interface TablatureView {
 
     void showMessage(int resId, int colorId);
 
-    void isVisibilityImage(int visibility);
+    void setVisibilityImage(int visibility);
 
-    void isVisibilityRecycler(int visibility);
+    void setVisibilityRecycler(int visibility);
+
+    void updateFiles(List<FileModel> fileModels);
+
+    int removeFile(int position);
 
     void setRecyclerView(List<FileModel> files);
 }
