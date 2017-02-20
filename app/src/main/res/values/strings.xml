@@ -9,6 +9,7 @@
     <string name="app_dir">SDCard/tuner</string>
 
     <string name="btn_delete">Usuń</string>
+    <string name="btn_close">Zamknij</string>
     <string name="btn_open">Otwórz</string>
 
     <string name="navigation_drawer_open">Otwórz menu</string>
@@ -17,6 +18,7 @@
     <string name="msg_err_external">Pamięć zewnętrzna nie jest dostępna</string>
     <string name="msg_err_dir">Katalog aplikacji nie został odnaleziony</string>
     <string name="msg_err_file">Nie ondnaleziono pliku</string>
+    <string name="msg_err_files">Nie ondnaleziono plików</string>
     <string name="msg_err_delete">Nie udało się usunąć pliku</string>
     <string name="msg_err_app">Nie odnaleziono aplikacji umożliwiającej wyświetlenie wybranego typu pliku</string>
 

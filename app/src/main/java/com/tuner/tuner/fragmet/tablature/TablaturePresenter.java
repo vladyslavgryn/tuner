@@ -71,6 +71,8 @@ public class TablaturePresenter {
                 } else {
                     tablatureView.setRecyclerView(fileModels);
                 }
+            } else {
+                tablatureView.showMessage(R.string.msg_err_files, Color.YELLOW);
             }
         } else {
             if (!path.mkdir()) {

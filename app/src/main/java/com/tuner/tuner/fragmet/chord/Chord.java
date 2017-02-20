@@ -3,14 +3,17 @@ package com.tuner.tuner.fragmet.chord;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.tuner.tuner.R;
 import com.tuner.tuner.fragmet.chord.adapter.ListViewChordAdapter;
+import com.tuner.tuner.fragmet.chord.dialog.ChordReview;
 
 import java.util.List;
 
@@ -18,7 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class Chord extends Fragment implements ChordView {
+public class Chord extends Fragment implements ChordView, AdapterView.OnItemClickListener {
 
     @BindView(R.id.list_chords)
     ListView listView;
@@ -44,6 +47,7 @@ public class Chord extends Fragment implements ChordView {
         unbinder = ButterKnife.bind(this, view);
 
         listView.setEmptyView(imageView);
+        listView.setOnItemClickListener(this);
 
         return view;
     }
@@ -70,5 +74,14 @@ public class Chord extends Fragment implements ChordView {
     public void setChords(List<String> chords) {
         ListViewChordAdapter listViewChordAdapter = new ListViewChordAdapter(getContext(), R.layout.list_view_chord, chords);
         listView.setAdapter(listViewChordAdapter);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        String name = (String) parent.getItemAtPosition(position);
+
+        FragmentManager fragmentManager = getFragmentManager();
+        ChordReview chordReview = ChordReview.getInstance(name);
+        chordReview.show(fragmentManager, "chord");
     }
 }
