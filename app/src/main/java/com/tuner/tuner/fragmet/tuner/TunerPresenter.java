@@ -1,34 +1,36 @@
 package com.tuner.tuner.fragmet.tuner;
 
 import android.os.Handler;
-import android.util.Log;
 
-import java.util.Random;
+import com.tuner.tuner.fragmet.tuner.helper.AudioHelper;
 
 class TunerPresenter {
 
+    private static final int TIME_REPEAT = 2000;
+
+    private AudioHelper audioHelper;
     private TunerView tunerView;
     private Handler handler;
     private Runnable runnable;
 
     TunerPresenter(TunerView tunerView) {
         this.tunerView = tunerView;
+        this.audioHelper = new AudioHelper();
     }
 
     void setText() {
-        final Random random = new Random();
+
+        audioHelper.startRecording();
 
         handler = new Handler();
         runnable = new Runnable() {
             @Override
             public void run() {
-                Log.d("run", "rub");
-                tunerView.setTextView(String.valueOf(random.nextInt(200)));
-                handler.postDelayed(this, 2000);
+                audioHelper.stopRecording();
             }
         };
 
-        handler.postDelayed(runnable, 2000);
+        handler.postDelayed(runnable, TIME_REPEAT);
     }
 
     void removeCallbacks() {
