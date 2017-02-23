@@ -29,7 +29,6 @@ class TunerPresenter {
                 audioHelper.stopRecording();
             }
         };
-
         handler.postDelayed(runnable, TIME_REPEAT);
     }
 

@@ -3,7 +3,6 @@ package com.tuner.tuner.fragmet.tuner.helper;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
-import android.util.Log;
 
 public class AudioHelper {
 
@@ -15,16 +14,16 @@ public class AudioHelper {
     private AudioRecord audioRecord;
     private Thread thread;
     private boolean recording;
+    private float frequency;
 
     public void startRecording() {
-        audioRecord = new AudioRecord(MediaRecorder.AudioSource.MIC, SAMPLE_RATE, CHANNELS, ENCODING, BUFFER_SIZE * 2);
+        audioRecord = new AudioRecord(MediaRecorder.AudioSource.MIC, SAMPLE_RATE, CHANNELS, ENCODING, BUFFER_SIZE);
         recording = true;
         audioRecord.startRecording();
         startThread();
     }
 
     public void stopRecording() {
-        Log.d("stop", "stop");
         audioRecord.stop();
         audioRecord.release();
         thread = null;
@@ -35,27 +34,45 @@ public class AudioHelper {
         return recording;
     }
 
+    public float getFrequency() {
+        return frequency;
+    }
+
     private void startThread() {
         thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                getData();
+                frequency = getData();
             }
         }, "AudioRecord");
         thread.start();
     }
 
-    private void getData() {
+    private int getData() {
 
         short data[] = new short[BUFFER_SIZE];
-        double[] toTransform = new double[BUFFER_SIZE];
 
         while (recording) {
-            int bufferReadResult = audioRecord.read(data, 0, BUFFER_SIZE);
+            audioRecord.read(data, 0, BUFFER_SIZE);
+        }
+        return calculate(data);
+    }
 
-            for(int i = 0; i < BUFFER_SIZE && i < bufferReadResult; i++) {
-                toTransform[i] = (double) data[i] / 32768.0; // signed 16 bit
+    private int calculate(short[] data) {
+
+        int numSamples = data.length;
+        int numCrossing = 0;
+
+        for (int i = 0; i < numSamples - 1; i++) {
+            if ((data[i] > 0 && data[i+1] <= 0) ||
+                    (data[i] < 0 && data[i+1] >= 0)) {
+                numCrossing++;
             }
         }
+
+        float numSecondsRecorder = (float) numSamples / (float) SAMPLE_RATE;
+        float numCycles = numCrossing / 2;
+
+        return (int) (numCycles / numSecondsRecorder);
     }
 }

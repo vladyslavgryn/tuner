@@ -27,7 +27,6 @@ public class Tuner extends Fragment implements TunerView {
         super.onCreate(savedInstanceState);
 
         tunerPresenter = new TunerPresenter(this);
-        tunerPresenter.setText();
     }
 
     @Nullable
@@ -38,6 +37,12 @@ public class Tuner extends Fragment implements TunerView {
         unbinder = ButterKnife.bind(this, view);
 
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        tunerPresenter.setText();
     }
 
     @Override
