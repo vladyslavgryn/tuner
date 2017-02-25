@@ -3,12 +3,16 @@ package com.tuner.tuner.fragmet.tuner;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.squareup.otto.Subscribe;
 import com.tuner.tuner.R;
+import com.tuner.tuner.bus.BusProvider;
+import com.tuner.tuner.bus.event.FrequencyChangeEvent;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,6 +25,18 @@ public class Tuner extends Fragment implements TunerView {
 
     private TunerPresenter tunerPresenter;
     private Unbinder unbinder;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        BusProvider.getInstance().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        BusProvider.getInstance().unregister(this);
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,5 +71,10 @@ public class Tuner extends Fragment implements TunerView {
     @Override
     public void setTextView(String text) {
         textView.setText(text);
+    }
+
+    @Subscribe
+    public void onPresenceChange(FrequencyChangeEvent event) {
+        textView.setText(String.valueOf(event.frequency));
     }
 }

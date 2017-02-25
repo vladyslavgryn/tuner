@@ -6,7 +6,7 @@ import com.tuner.tuner.fragmet.tuner.helper.AudioHelper;
 
 class TunerPresenter {
 
-    private static final int TIME_REPEAT = 2000;
+    private static final int TIME_REPEAT = 1000;
 
     private AudioHelper audioHelper;
     private TunerView tunerView;
@@ -23,10 +23,16 @@ class TunerPresenter {
         audioHelper.startRecording();
 
         handler = new Handler();
+
         runnable = new Runnable() {
             @Override
             public void run() {
-                audioHelper.stopRecording();
+                if (audioHelper.isRecording()) {
+                    audioHelper.stopRecording();
+                } else {
+                    audioHelper.startRecording();
+                }
+                handler.postDelayed(runnable, TIME_REPEAT);
             }
         };
         handler.postDelayed(runnable, TIME_REPEAT);

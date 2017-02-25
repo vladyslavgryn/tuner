@@ -4,6 +4,10 @@ import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
 
+import com.squareup.otto.Produce;
+import com.tuner.tuner.bus.BusProvider;
+import com.tuner.tuner.bus.event.FrequencyChangeEvent;
+
 public class AudioHelper {
 
     private static final int SAMPLE_RATE = 44100;
@@ -14,7 +18,7 @@ public class AudioHelper {
     private AudioRecord audioRecord;
     private Thread thread;
     private boolean recording;
-    private float frequency;
+    private int frequency;
 
     public void startRecording() {
         audioRecord = new AudioRecord(MediaRecorder.AudioSource.MIC, SAMPLE_RATE, CHANNELS, ENCODING, BUFFER_SIZE);
@@ -30,12 +34,8 @@ public class AudioHelper {
         recording = false;
     }
 
-    public boolean isRecordnig() {
+    public boolean isRecording() {
         return recording;
-    }
-
-    public float getFrequency() {
-        return frequency;
     }
 
     private void startThread() {
@@ -43,6 +43,7 @@ public class AudioHelper {
             @Override
             public void run() {
                 frequency = getData();
+                BusProvider.getInstance().post(produceFrequencyEvent());
             }
         }, "AudioRecord");
         thread.start();
@@ -74,5 +75,10 @@ public class AudioHelper {
         float numCycles = numCrossing / 2;
 
         return (int) (numCycles / numSecondsRecorder);
+    }
+
+    @Produce
+    public FrequencyChangeEvent produceFrequencyEvent() {
+        return new FrequencyChangeEvent(frequency);
     }
 }

@@ -3,6 +3,7 @@ package com.tuner.tuner.fragmet.tablature;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -10,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -148,9 +150,10 @@ public class Tablature extends Fragment implements TablatureView {
     public void showFile(File file) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
 
-        intent.setData(FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID + ".provider", file));
-        intent.setType(FileUtil.FILE_MIME_TYPE);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Uri fileUri = FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID + ".provider", file);
+
+        intent.setDataAndType(fileUri, FileUtil.FILE_MIME_TYPE);
+        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
         try {
             startActivity(intent);
