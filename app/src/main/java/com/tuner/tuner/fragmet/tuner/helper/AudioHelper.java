@@ -3,12 +3,13 @@ package com.tuner.tuner.fragmet.tuner.helper;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
+import android.os.Message;
 
-import com.squareup.otto.Produce;
-import com.tuner.tuner.bus.BusProvider;
-import com.tuner.tuner.bus.event.FrequencyChangeEvent;
+import com.tuner.tuner.fragmet.tuner.TunerPresenter;
 
 public class AudioHelper {
+
+    public static final int MESSAGE_ID = 1;
 
     private static final int SAMPLE_RATE = 44100;
     private static final int CHANNELS = AudioFormat.CHANNEL_IN_MONO;
@@ -43,10 +44,17 @@ public class AudioHelper {
             @Override
             public void run() {
                 frequency = getData();
-                BusProvider.getInstance().post(produceFrequencyEvent());
+                sendMessage();
             }
         }, "AudioRecord");
         thread.start();
+    }
+
+    private void sendMessage() {
+        Message msg = Message.obtain();
+        msg.what = MESSAGE_ID;
+        msg.arg1 = frequency;
+        TunerPresenter.handler.sendMessage(msg);
     }
 
     private int getData() {
@@ -75,10 +83,5 @@ public class AudioHelper {
         float numCycles = numCrossing / 2;
 
         return (int) (numCycles / numSecondsRecorder);
-    }
-
-    @Produce
-    public FrequencyChangeEvent produceFrequencyEvent() {
-        return new FrequencyChangeEvent(frequency);
     }
 }
