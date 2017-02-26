@@ -19,13 +19,18 @@ public class AudioHelper {
     private AudioRecord audioRecord;
     private Thread thread;
     private boolean recording;
+    private boolean cancel;
     private int frequency;
 
     public void startRecording() {
         audioRecord = new AudioRecord(MediaRecorder.AudioSource.MIC, SAMPLE_RATE, CHANNELS, ENCODING, BUFFER_SIZE);
-        recording = true;
-        audioRecord.startRecording();
-        startThread();
+
+        if (audioRecord.getState() == AudioRecord.STATE_INITIALIZED) {
+            recording = true;
+            cancel = false;
+            audioRecord.startRecording();
+            startThread();
+        }
     }
 
     public void stopRecording() {
@@ -33,6 +38,11 @@ public class AudioHelper {
         audioRecord.release();
         thread = null;
         recording = false;
+    }
+
+    public void cancel() {
+        cancel = true;
+        stopRecording();
     }
 
     public boolean isRecording() {
@@ -44,7 +54,9 @@ public class AudioHelper {
             @Override
             public void run() {
                 frequency = getData();
-                sendMessage();
+                if (!cancel) {
+                    sendMessage();
+                }
             }
         }, "AudioRecord");
         thread.start();

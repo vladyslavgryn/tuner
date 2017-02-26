@@ -19,7 +19,7 @@ public class TunerPresenter implements Handler.Callback {
         this.audioHelper = new AudioHelper();
     }
 
-    void setText() {
+    void startRecording() {
 
         audioHelper.startRecording();
 
@@ -42,6 +42,10 @@ public class TunerPresenter implements Handler.Callback {
     void removeCallbacks() {
         if (null != handler && null != runnable) {
             handler.removeCallbacks(runnable);
+        }
+
+        if (audioHelper.isRecording()) {
+            audioHelper.cancel();
         }
     }
 

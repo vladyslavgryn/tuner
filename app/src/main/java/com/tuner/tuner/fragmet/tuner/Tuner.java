@@ -42,7 +42,7 @@ public class Tuner extends Fragment implements TunerView {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        tunerPresenter.setText();
+        tunerPresenter.startRecording();
     }
 
     @Override
