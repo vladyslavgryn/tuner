@@ -1,6 +1,18 @@
 package com.tuner.tuner.fragmet.tuner;
 
-interface TunerView {
+import com.github.mikephil.charting.data.LineData;
 
-    void setTextView(int value);
+public interface TunerView {
+
+    void setFrequency(int value);
+
+    void disableLegend();
+
+    void setCustomStyle();
+
+    void setLargeValueFormatter();
+
+    LineData getChartData();
+
+    void setChartData(LineData lineData);
 }

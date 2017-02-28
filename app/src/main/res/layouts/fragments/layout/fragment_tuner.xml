@@ -1,27 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="horizontal">
+    android:layout_height="match_parent">
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/tuner_chart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_above="@+id/text_frequency_value" />
 
-    <!--<TextView-->
-    <!--android:id="@+id/text_frequency_value"-->
-    <!--android:text="@string/app_default_frequency"-->
-    <!--android:padding="5dp"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:textSize="@dimen/text_view_size" />-->
+    <TextView
+        android:id="@+id/text_frequency_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/text_frequency_chord"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:text="@string/app_default_frequency"
+        android:textSize="@dimen/text_view_size" />
 
-    <!--<TextView-->
-    <!--android:id="@+id/textView2"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="@string/app_frequency"-->
-    <!--android:textSize="@dimen/text_view_size" />-->
-</LinearLayout>
+    <TextView
+        android:id="@+id/text_frequency_chord"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/text_frequency_value"
+        android:textSize="@dimen/text_view_size" />
+
+</RelativeLayout>

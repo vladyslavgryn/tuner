@@ -3,17 +3,18 @@ package com.tuner.tuner.fragmet.tuner;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.LargeValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.tuner.tuner.R;
 import com.tuner.tuner.fragmet.tuner.helper.GraphHelper;
 
@@ -22,13 +23,19 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class Tuner extends Fragment implements TunerView {
-
-//    @BindView(R.id.text_frequency_value)
-//    TextView textView;
+public class Tuner extends Fragment implements TunerView, OnChartValueSelectedListener {
 
     @BindView(R.id.tuner_chart)
     LineChart lineChart;
+
+    @BindView(R.id.text_frequency_value)
+    TextView textFrequency;
+
+    @BindView(R.id.text_frequency_chord)
+    TextView getTextFrequencyChord;
+
+    @BindString(R.string.app_frequency_unit)
+    String frequencyUnit;
 
     @BindString(R.string.app_frequency)
     String frequency;
@@ -42,7 +49,6 @@ public class Tuner extends Fragment implements TunerView {
         super.onCreate(savedInstanceState);
 
         tunerPresenter = new TunerPresenter(this);
-        graphHelper = new GraphHelper();
     }
 
     @Nullable
@@ -51,18 +57,11 @@ public class Tuner extends Fragment implements TunerView {
         View view = inflater.inflate(R.layout.fragment_tuner, container, false);
 
         unbinder = ButterKnife.bind(this, view);
-        graphHelper.initLineDataSet(frequency);
+        graphHelper = new GraphHelper(this, frequencyUnit);
+        graphHelper.initLineDataSet();
 
         lineChart.setData(graphHelper.getLineData());
-        lineChart.getXAxis().setDrawGridLines(false);
-        lineChart.getXAxis().setEnabled(false);
-        lineChart.getAxisRight().setEnabled(false);
-        lineChart.getLegend().setEnabled(false);
-        LargeValueFormatter largeValueFormatter = new LargeValueFormatter();
-        largeValueFormatter.setAppendix(frequency);
-        lineChart.getAxisLeft().setValueFormatter(largeValueFormatter);
-
-        lineChart.getAxisLeft().setAxisMinimum(0);
+        lineChart.setOnChartValueSelectedListener(this);
 
         return view;
     }
@@ -81,23 +80,56 @@ public class Tuner extends Fragment implements TunerView {
     }
 
     @Override
-    public void setTextView(int value) {
-        LineData data = lineChart.getData();
+    public void setFrequency(int value) {
+        graphHelper.updateChart(value);
+        textFrequency.setText(String.valueOf(value) + " " + frequencyUnit);
+    }
 
-        if (null != data) {
-            ILineDataSet set = data.getDataSetByIndex(0);
+    @Override
+    public void disableLegend() {
+        lineChart.getLegend().setEnabled(false);
+    }
 
-            if (null == set) {
-                set = graphHelper.getLineDataSet();
-                data.addDataSet(set);
-            }
+    @Override
+    public void setCustomStyle() {
+        lineChart.setDescription(graphHelper.createDescription(frequency, 13f));
+        lineChart.getXAxis().setEnabled(false);
+        lineChart.getXAxis().setDrawGridLines(false);
+        lineChart.getAxisLeft().setAxisMinimum(0f);
+        lineChart.getAxisLeft().setGranularity(1f);
+        lineChart.getAxisLeft().setTextSize(11f);
+        lineChart.getAxisLeft().setDrawAxisLine(false);
+        lineChart.getAxisRight().setEnabled(false);
+        lineChart.setDoubleTapToZoomEnabled(false);
+    }
 
-            data.addEntry(graphHelper.getEntry(value), 0);
-            data.notifyDataChanged();
+    @Override
+    public void setLargeValueFormatter() {
+        LargeValueFormatter largeValueFormatter = new LargeValueFormatter();
+        largeValueFormatter.setAppendix(frequencyUnit);
+        lineChart.getAxisLeft().setValueFormatter(largeValueFormatter);
+    }
 
-            lineChart.notifyDataSetChanged();
-            lineChart.setVisibleXRangeMaximum(120);
-            lineChart.moveViewToX(data.getEntryCount());
-        }
+    @Override
+    public LineData getChartData() {
+        return lineChart.getData();
+    }
+
+    @Override
+    public void setChartData(LineData lineData) {
+        lineChart.notifyDataSetChanged();
+        lineChart.setVisibleXRangeMaximum(40);
+        lineChart.moveViewToX(graphHelper.getEntryCount());
+        lineChart.invalidate();
+    }
+
+    @Override
+    public void onValueSelected(Entry e, Highlight h) {
+        Toast.makeText(getContext(), frequency + ": " + e.getY() + frequencyUnit, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onNothingSelected() {
+
     }
 }

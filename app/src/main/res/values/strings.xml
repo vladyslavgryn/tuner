@@ -7,7 +7,8 @@
     <string name="app_chord">Akordy</string>
     <string name="app_tuner">Stroik</string>
     <string name="app_dir">SDCard/tuner</string>
-    <string name="app_frequency">Hz</string>
+    <string name="app_frequency_unit">Hz</string>
+    <string name="app_frequency">Częstotliwość</string>
     <string name="app_default_frequency">0</string>
 
     <string name="btn_delete">Usuń</string>

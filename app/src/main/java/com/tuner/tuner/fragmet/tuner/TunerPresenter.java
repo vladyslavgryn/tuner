@@ -52,7 +52,7 @@ public class TunerPresenter implements Handler.Callback {
     @Override
     public boolean handleMessage(Message msg) {
         if (AudioHelper.MESSAGE_ID == msg.what) {
-            tunerView.setTextView(msg.arg1);
+            tunerView.setFrequency(msg.arg1);
         }
         return false;
     }
