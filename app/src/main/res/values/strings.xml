@@ -10,6 +10,7 @@
     <string name="app_frequency_unit">Hz</string>
     <string name="app_frequency">Częstotliwość</string>
     <string name="app_default_frequency">0</string>
+    <string name="app_exit">Wciśnij wstecz aby wyjść</string>
 
     <string name="btn_delete">Usuń</string>
     <string name="btn_close">Zamknij</string>

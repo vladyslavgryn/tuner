@@ -1,5 +1,6 @@
 package com.tuner.tuner.fragmet.tablature;
 
+import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Color;
@@ -24,6 +25,8 @@ import android.widget.TextView;
 import com.tuner.tuner.BuildConfig;
 import com.tuner.tuner.R;
 import com.tuner.tuner.fragmet.tablature.adapter.RecyclerViewTablatureAdapter;
+import com.tuner.tuner.helper.Permission;
+import com.tuner.tuner.helper.PermissionInterface;
 import com.tuner.tuner.models.FileModel;
 import com.tuner.tuner.utils.FileUtil;
 
@@ -34,7 +37,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class Tablature extends Fragment implements TablatureView {
+public class Tablature extends Fragment implements TablatureView, PermissionInterface {
+
+    public static final String[] WRITE_PERMISSION = new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE };
+    public static final int REQUEST_EXTERNAL = 0;
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -46,6 +52,7 @@ public class Tablature extends Fragment implements TablatureView {
     LinearLayout linearLayout;
 
     private Unbinder unbinder;
+    private Permission permission;
     private TablaturePresenter tablaturePresenter;
     private RecyclerViewTablatureAdapter recyclerViewTablatureAdapter;
 
@@ -56,6 +63,8 @@ public class Tablature extends Fragment implements TablatureView {
         setHasOptionsMenu(true);
 
         tablaturePresenter = new TablaturePresenter(this);
+        permission = new Permission(getContext());
+        permission.setPermissionInterface(this);
     }
 
     @Nullable
@@ -94,8 +103,7 @@ public class Tablature extends Fragment implements TablatureView {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        tablaturePresenter.readFilesFromPath(false);
+        permission.checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, getActivity());
     }
 
     @Override
@@ -159,5 +167,26 @@ public class Tablature extends Fragment implements TablatureView {
         } catch (ActivityNotFoundException e) {
             showMessage(R.string.msg_err_app, Color.RED);
         }
+    }
+
+    @Override
+    public void requestPermission() {
+        permission.requestPermission(WRITE_PERMISSION, getActivity(), REQUEST_EXTERNAL);
+    }
+
+    @Override
+    public void requestPermissionRationale() {
+        Snackbar.make(linearLayout, R.string.app_chord, Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.msg_err_file, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        permission.requestPermission(WRITE_PERMISSION, getActivity(), REQUEST_EXTERNAL);
+                    }
+                }).show();
+    }
+
+    @Override
+    public void permissionGranted() {
+        tablaturePresenter.readFilesFromPath(false);
     }
 }

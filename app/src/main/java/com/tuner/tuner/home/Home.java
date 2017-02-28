@@ -1,6 +1,7 @@
 package com.tuner.tuner.home;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -12,6 +13,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.tuner.tuner.R;
 import com.tuner.tuner.fragmet.tablature.Tablature;
@@ -20,6 +22,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class Home extends AppCompatActivity implements HomeView, NavigationView.OnNavigationItemSelectedListener {
+
+    private static final int BACK_PRESSED_MILL = 2000;
+    private boolean doubleBackPressed = false;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -67,7 +72,20 @@ public class Home extends AppCompatActivity implements HomeView, NavigationView.
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (doubleBackPressed) {
+                super.onBackPressed();
+                return;
+            }
+            doubleBackPressed = true;
+
+            Toast.makeText(this, R.string.app_exit, Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doubleBackPressed = false;
+                }
+            }, BACK_PRESSED_MILL);
         }
     }
 
