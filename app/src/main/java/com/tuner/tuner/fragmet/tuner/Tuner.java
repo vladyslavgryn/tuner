@@ -8,12 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.LargeValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.tuner.tuner.R;
 import com.tuner.tuner.fragmet.tuner.helper.GraphHelper;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -23,11 +27,13 @@ public class Tuner extends Fragment implements TunerView {
 //    @BindView(R.id.text_frequency_value)
 //    TextView textView;
 
-    @BindView(R.id.graph_tuner)
-    GraphView graphView;
+    @BindView(R.id.tuner_chart)
+    LineChart lineChart;
+
+    @BindString(R.string.app_frequency)
+    String frequency;
 
     private TunerPresenter tunerPresenter;
-    private LineGraphSeries<DataPoint> series;
     private GraphHelper graphHelper;
     private Unbinder unbinder;
 
@@ -45,9 +51,18 @@ public class Tuner extends Fragment implements TunerView {
         View view = inflater.inflate(R.layout.fragment_tuner, container, false);
 
         unbinder = ButterKnife.bind(this, view);
-        series = graphHelper.getSeries();
+        graphHelper.initLineDataSet(frequency);
 
-        graphView.addSeries(series);
+        lineChart.setData(graphHelper.getLineData());
+        lineChart.getXAxis().setDrawGridLines(false);
+        lineChart.getXAxis().setEnabled(false);
+        lineChart.getAxisRight().setEnabled(false);
+        lineChart.getLegend().setEnabled(false);
+        LargeValueFormatter largeValueFormatter = new LargeValueFormatter();
+        largeValueFormatter.setAppendix(frequency);
+        lineChart.getAxisLeft().setValueFormatter(largeValueFormatter);
+
+        lineChart.getAxisLeft().setAxisMinimum(0);
 
         return view;
     }
@@ -67,7 +82,22 @@ public class Tuner extends Fragment implements TunerView {
 
     @Override
     public void setTextView(int value) {
-        Log.d("value", String.valueOf(value));
-        series.appendData(graphHelper.addData(value), false, 40);
+        LineData data = lineChart.getData();
+
+        if (null != data) {
+            ILineDataSet set = data.getDataSetByIndex(0);
+
+            if (null == set) {
+                set = graphHelper.getLineDataSet();
+                data.addDataSet(set);
+            }
+
+            data.addEntry(graphHelper.getEntry(value), 0);
+            data.notifyDataChanged();
+
+            lineChart.notifyDataSetChanged();
+            lineChart.setVisibleXRangeMaximum(120);
+            lineChart.moveViewToX(data.getEntryCount());
+        }
     }
 }

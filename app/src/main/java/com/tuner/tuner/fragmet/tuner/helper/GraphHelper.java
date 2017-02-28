@@ -1,26 +1,46 @@
 package com.tuner.tuner.fragmet.tuner.helper;
 
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
+import android.graphics.Color;
+
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.LargeValueFormatter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GraphHelper {
 
-    private LineGraphSeries<DataPoint> series;
-    private double graphLastValue = 0d;
+    private LineData lineData;
+    private LineDataSet lineDataSet;
+    private float graphLastValue = 2f;
+    private List<Entry> entries = new ArrayList<>();
 
     public GraphHelper() {
-        series = new LineGraphSeries<>();
-        series.setDrawDataPoints(true);
-        series.setDataPointsRadius(10);
-        series.setThickness(2);
+        entries.add(new Entry(0, 0));
     }
 
-    public LineGraphSeries<DataPoint> getSeries() {
-        return series;
+    public void initLineDataSet(String label) {
+        lineDataSet = new LineDataSet(entries, label);
+        lineDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        lineDataSet.setDrawFilled(true);
+        lineDataSet.setLineWidth(3f);
+        lineDataSet.setColor(Color.RED);
+        lineDataSet.setFillColor(Color.RED);
     }
 
-    public DataPoint addData(int value) {
+    public LineDataSet getLineDataSet() {
+        return lineDataSet;
+    }
 
-        return new DataPoint(graphLastValue += 2d, value);
+    public LineData getLineData() {
+        lineData = new LineData(lineDataSet);
+        return lineData;
+    }
+
+    public Entry getEntry(int y) {
+        return new Entry(graphLastValue += 2d, y);
     }
 }
