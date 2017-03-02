@@ -10,6 +10,7 @@ import com.tuner.tuner.fragmet.tuner.TunerPresenter;
 public class AudioHelper {
 
     public static final int MESSAGE_ID = 1;
+    public static final int MAX_FREQUENCY = 1000;
 
     private static final int SAMPLE_RATE = 44100;
     private static final int CHANNELS = AudioFormat.CHANNEL_IN_MONO;

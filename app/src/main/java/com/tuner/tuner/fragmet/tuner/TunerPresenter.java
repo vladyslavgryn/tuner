@@ -2,6 +2,7 @@ package com.tuner.tuner.fragmet.tuner;
 
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.media.AudioRecord;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -65,7 +66,7 @@ public class TunerPresenter implements Handler.Callback {
 
     @Override
     public boolean handleMessage(Message msg) {
-        if (AudioHelper.MESSAGE_ID == msg.what) {
+        if (AudioHelper.MESSAGE_ID == msg.what && msg.arg1 < AudioHelper.MAX_FREQUENCY) {
             tunerView.setFrequency(msg.arg1);
         }
         return false;
