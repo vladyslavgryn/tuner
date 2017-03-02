@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ public class ChordReview extends DialogFragment {
     ImageView imageView;
 
     private Unbinder unbinder;
+    private String name;
 
     public static ChordReview getInstance(String name) {
 
@@ -34,6 +36,13 @@ public class ChordReview extends DialogFragment {
         chordReview.setArguments(bundle);
 
         return chordReview;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        name = getArguments().getString("chord-name");
     }
 
     @NonNull
@@ -49,7 +58,12 @@ public class ChordReview extends DialogFragment {
 
         unbinder = ButterKnife.bind(this, view);
 
-        alertDialog.setTitle(getArguments().getString("chord-name"));
+        int resourceId = getResources().getIdentifier("ic_chord_" + name.toLowerCase(), "drawable", getContext().getPackageName());
+
+        if (resourceId != 0) {
+            imageView.setImageResource(resourceId);
+        }
+        alertDialog.setTitle(name);
         alertDialog.setNegativeButton(R.string.btn_close, null);
         alertDialog.setView(view);
 

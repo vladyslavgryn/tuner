@@ -11,7 +11,7 @@ import com.tuner.tuner.fragmet.tuner.helper.AudioHelper;
 
 public class TunerPresenter implements Handler.Callback {
 
-    private static final int TIME_REPEAT = 2000;
+    private static final int TIME_REPEAT = 1000;
 
     private AudioHelper audioHelper;
     private TunerView tunerView;
@@ -24,7 +24,7 @@ public class TunerPresenter implements Handler.Callback {
     }
 
     void startRecording() {
-
+        tunerView.setVisibilityChart(View.VISIBLE);
         audioHelper.startRecording();
 
         handler = new Handler(this);
