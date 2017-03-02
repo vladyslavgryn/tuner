@@ -126,6 +126,11 @@ public class Tuner extends Fragment implements TunerView, OnChartValueSelectedLi
     }
 
     @Override
+    public void setVisibilityChart(int visibility) {
+        lineChart.setVisibility(visibility);
+    }
+
+    @Override
     public LineData getChartData() {
         return lineChart.getData();
     }

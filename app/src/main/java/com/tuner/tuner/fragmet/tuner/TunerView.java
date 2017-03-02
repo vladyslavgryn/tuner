@@ -12,6 +12,8 @@ public interface TunerView {
 
     void setLargeValueFormatter();
 
+    void setVisibilityChart(int visibility);
+
     LineData getChartData();
 
     void setChartData(LineData lineData);

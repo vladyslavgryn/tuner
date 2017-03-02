@@ -4,6 +4,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
+import android.view.View;
 
 import com.tuner.tuner.R;
 import com.tuner.tuner.fragmet.tuner.helper.AudioHelper;
@@ -44,8 +45,10 @@ public class TunerPresenter implements Handler.Callback {
 
     void requestPermission(int[] grantResults) {
         if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            tunerView.setVisibilityChart(View.VISIBLE);
             startRecording();
         } else {
+            tunerView.setVisibilityChart(View.GONE);
             tunerView.showMessage(R.string.msg_err_permission, Color.RED);
         }
     }
