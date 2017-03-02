@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -40,7 +41,7 @@ import butterknife.Unbinder;
 public class Tablature extends Fragment implements TablatureView, PermissionInterface {
 
     public static final String[] WRITE_PERMISSION = new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE };
-    public static final int REQUEST_EXTERNAL = 0;
+    public static final int REQUEST_EXTERNAL = 1;
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -92,8 +93,7 @@ public class Tablature extends Fragment implements TablatureView, PermissionInte
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_refresh) {
-            tablaturePresenter.readFilesFromPath(true);
-
+            tablaturePresenter.refreshClick(permission.getPermission());
             return true;
         }
 
@@ -171,22 +171,36 @@ public class Tablature extends Fragment implements TablatureView, PermissionInte
 
     @Override
     public void requestPermission() {
-        permission.requestPermission(WRITE_PERMISSION, getActivity(), REQUEST_EXTERNAL);
+        requestPermissions(WRITE_PERMISSION, REQUEST_EXTERNAL);
     }
 
     @Override
     public void requestPermissionRationale() {
-        Snackbar.make(linearLayout, R.string.app_chord, Snackbar.LENGTH_INDEFINITE)
-                .setAction(R.string.msg_err_file, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        permission.requestPermission(WRITE_PERMISSION, getActivity(), REQUEST_EXTERNAL);
-                    }
-                }).show();
+        Snackbar.make(linearLayout, R.string.app_ok, Snackbar.LENGTH_INDEFINITE)
+            .setAction(R.string.app_permission_external, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    requestPermissions(WRITE_PERMISSION, REQUEST_EXTERNAL);
+                }
+            }).show();
     }
 
     @Override
     public void permissionGranted() {
         tablaturePresenter.readFilesFromPath(false);
+    }
+
+    @Override
+    public void setPermission(boolean permission) {
+        this.permission.setPermission(permission);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_EXTERNAL) {
+            tablaturePresenter.requestPermission(grantResults);
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 }

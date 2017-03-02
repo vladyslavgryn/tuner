@@ -1,5 +1,6 @@
 package com.tuner.tuner.fragmet.tablature;
 
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.view.View;
 
@@ -46,6 +47,7 @@ public class TablaturePresenter {
 
     void readFilesFromPath(boolean updateFiles) {
 
+        tablatureView.setPermission(true);
         tablatureView.setVisibilityRecycler(View.GONE);
         tablatureView.setVisibilityImage(View.VISIBLE);
 
@@ -54,6 +56,22 @@ public class TablaturePresenter {
             validatePath(path, updateFiles);
         } else {
             tablatureView.showMessage(R.string.msg_err_external, Color.RED);
+        }
+    }
+
+    void refreshClick(boolean permission) {
+        if (permission) {
+            readFilesFromPath(true);
+        } else {
+            tablatureView.showMessage(R.string.msg_err_permission, Color.RED);
+        }
+    }
+
+    void requestPermission(int[] grantResults) {
+        if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            readFilesFromPath(false);
+        } else {
+            tablatureView.showMessage(R.string.msg_err_permission, Color.RED);
         }
     }
 

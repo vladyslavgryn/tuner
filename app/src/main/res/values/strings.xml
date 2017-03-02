@@ -7,10 +7,12 @@
     <string name="app_chord">Akordy</string>
     <string name="app_tuner">Stroik</string>
     <string name="app_dir">SDCard/tuner</string>
+    <string name="app_ok">OK</string>
     <string name="app_frequency_unit">Hz</string>
     <string name="app_frequency">Częstotliwość</string>
     <string name="app_default_frequency">0</string>
     <string name="app_exit">Wciśnij wstecz aby wyjść</string>
+    <string name="app_permission_external">Dostęp do pamięci jest potrzebny aby moć odczytać pliki</string>
 
     <string name="btn_delete">Usuń</string>
     <string name="btn_close">Zamknij</string>
@@ -24,6 +26,7 @@
     <string name="msg_err_file">Nie ondnaleziono pliku</string>
     <string name="msg_err_files">Nie ondnaleziono plików</string>
     <string name="msg_err_delete">Nie udało się usunąć pliku</string>
+    <string name="msg_err_permission">Uprawnienia nie zostały jeszcze nadane</string>
     <string name="msg_err_app">Nie odnaleziono aplikacji umożliwiającej wyświetlenie wybranego typu pliku</string>
 
     <string name="msg_suc_delete">Plik został usunięty</string>

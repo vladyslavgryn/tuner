@@ -8,6 +8,7 @@ import android.support.v4.app.ActivityCompat;
 
 public class Permission {
 
+    private boolean permission = false;
     private Context context;
     private PermissionInterface permissionInterface;
 
@@ -31,7 +32,11 @@ public class Permission {
         }
     }
 
-    public void requestPermission(@NonNull String[] permissions, @NonNull Activity activity, int requestCode) {
-        ActivityCompat.requestPermissions(activity, permissions, requestCode);
+    public boolean getPermission() {
+        return permission;
+    }
+
+    public void setPermission(boolean permission) {
+        this.permission = permission;
     }
 }
