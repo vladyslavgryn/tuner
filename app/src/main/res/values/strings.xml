@@ -13,6 +13,7 @@
     <string name="app_default_frequency">0</string>
     <string name="app_exit">Wciśnij wstecz aby wyjść</string>
     <string name="app_permission_external">Dostęp do pamięci jest potrzebny aby moć odczytać pliki</string>
+    <string name="app_permission_audio">Dostęp do mikrofonu jest potrzebny aby moć rozróżniać dźwięk</string>
 
     <string name="btn_delete">Usuń</string>
     <string name="btn_close">Zamknij</string>

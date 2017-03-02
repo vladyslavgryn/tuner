@@ -1,8 +1,11 @@
 package com.tuner.tuner.fragmet.tuner;
 
+import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 
+import com.tuner.tuner.R;
 import com.tuner.tuner.fragmet.tuner.helper.AudioHelper;
 
 public class TunerPresenter implements Handler.Callback {
@@ -37,6 +40,14 @@ public class TunerPresenter implements Handler.Callback {
             }
         };
         handler.postDelayed(runnable, TIME_REPEAT);
+    }
+
+    void requestPermission(int[] grantResults) {
+        if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            startRecording();
+        } else {
+            tunerView.showMessage(R.string.msg_err_permission, Color.RED);
+        }
     }
 
     void removeCallbacks() {

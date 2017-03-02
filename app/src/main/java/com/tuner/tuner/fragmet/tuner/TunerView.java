@@ -15,4 +15,6 @@ public interface TunerView {
     LineData getChartData();
 
     void setChartData(LineData lineData);
+
+    void showMessage(int resId, int colorId);
 }
