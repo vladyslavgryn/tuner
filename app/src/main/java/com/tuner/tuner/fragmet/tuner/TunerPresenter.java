@@ -2,7 +2,6 @@ package com.tuner.tuner.fragmet.tuner;
 
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.media.AudioRecord;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
