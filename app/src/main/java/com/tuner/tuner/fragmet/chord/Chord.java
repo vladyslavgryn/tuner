@@ -17,6 +17,7 @@ import com.tuner.tuner.fragmet.chord.dialog.ChordReview;
 
 import java.util.List;
 
+import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -28,6 +29,9 @@ public class Chord extends Fragment implements ChordView, AdapterView.OnItemClic
 
     @BindView(R.id.image_empty_chords)
     ImageView imageView;
+
+    @BindArray(R.array.chords)
+    String[] chords;
 
     private Unbinder unbinder;
     private ChordPresenter chordPresenter;
@@ -67,7 +71,7 @@ public class Chord extends Fragment implements ChordView, AdapterView.OnItemClic
 
     @Override
     public String[] getChords() {
-        return getResources().getStringArray(R.array.chords);
+        return chords;
     }
 
     @Override

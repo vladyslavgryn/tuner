@@ -46,4 +46,13 @@
         <item>F#</item>
     </string-array>
 
+    <string-array name="tuner_chords">
+        <item>e&lt;sub&gt;2&lt;/sub&gt; 82.4 hz</item>
+        <item>a&lt;sub&gt;2&lt;/sub&gt; 110.0 hz</item>
+        <item>d&lt;sub&gt;3&lt;/sub&gt; 146.8 hz</item>
+        <item>g&lt;sub&gt;3&lt;/sub&gt; 196.0 hz</item>
+        <item>b&lt;sub&gt;3&lt;/sub&gt; 246.9 hz</item>
+        <item>e&lt;sub&gt;4&lt;/sub&gt; 329.6 hz</item>
+    </string-array>
+
 </resources>

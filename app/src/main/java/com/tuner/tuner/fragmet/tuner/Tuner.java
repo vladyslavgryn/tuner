@@ -6,6 +6,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSnapHelper;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +23,15 @@ import com.github.mikephil.charting.formatter.LargeValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.tuner.tuner.R;
+import com.tuner.tuner.fragmet.tuner.adapter.RecyclerViewChordAdapter;
 import com.tuner.tuner.fragmet.tuner.helper.GraphHelper;
 import com.tuner.tuner.helper.Permission;
 import com.tuner.tuner.helper.PermissionInterface;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import butterknife.BindArray;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,20 +45,23 @@ public class Tuner extends Fragment implements TunerView, OnChartValueSelectedLi
     @BindView(R.id.relative_layout)
     RelativeLayout relativeLayout;
 
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
+
     @BindView(R.id.tuner_chart)
     LineChart lineChart;
 
     @BindView(R.id.text_frequency_value)
     TextView textFrequency;
 
-    @BindView(R.id.text_frequency_chord)
-    TextView getTextFrequencyChord;
-
     @BindString(R.string.app_frequency_unit)
     String frequencyUnit;
 
     @BindString(R.string.app_frequency)
     String frequency;
+
+    @BindArray(R.array.tuner_chords)
+    String[] chords;
 
     private TunerPresenter tunerPresenter;
     private GraphHelper graphHelper;
@@ -72,6 +83,16 @@ public class Tuner extends Fragment implements TunerView, OnChartValueSelectedLi
         View view = inflater.inflate(R.layout.fragment_tuner, container, false);
 
         unbinder = ButterKnife.bind(this, view);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        RecyclerViewChordAdapter recyclerViewChordAdapter = new RecyclerViewChordAdapter(new ArrayList<>(Arrays.asList(chords)));
+        LinearSnapHelper linearSnapHelper = new LinearSnapHelper();
+
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(recyclerViewChordAdapter);
+        linearSnapHelper.attachToRecyclerView(recyclerView);
+
         graphHelper = new GraphHelper(this, frequencyUnit);
         graphHelper.initLineDataSet();
 

@@ -15,18 +15,20 @@
         android:id="@+id/text_frequency_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/text_frequency_chord"
+        android:layout_above="@+id/recycler_view"
         android:layout_centerHorizontal="true"
         android:layout_margin="10dp"
         android:text="@string/app_default_frequency"
         android:textSize="@dimen/text_view_size" />
 
-    <TextView
-        android:id="@+id/text_frequency_chord"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:scrollbars="horizontal"
+        android:layout_margin="10dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/text_frequency_value"
-        android:textSize="@dimen/text_view_size" />
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
