@@ -58,11 +58,18 @@ public class ChordReview extends DialogFragment {
 
         unbinder = ButterKnife.bind(this, view);
 
-        int resourceId = getResources().getIdentifier("ic_chord_" + name.toLowerCase(), "drawable", getContext().getPackageName());
+        String newName = name.toLowerCase();
+
+        if (newName.length() > 1) {
+            newName = newName.substring(0, newName.length() - 1) + "h";
+        }
+
+        int resourceId = getResources().getIdentifier("ic_chord_" + newName, "drawable", getContext().getPackageName());
 
         if (resourceId != 0) {
             imageView.setImageResource(resourceId);
         }
+
         alertDialog.setTitle(name);
         alertDialog.setNegativeButton(R.string.btn_close, null);
         alertDialog.setView(view);
